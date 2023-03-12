@@ -3,24 +3,29 @@
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
 useHead({
-  title: 'MessengerX',
+  title: "MessengerX",
   meta: [
-    { name: 'description', content: 'Chat message app' },
+    { name: "description", content: "Chat message app" },
     {
-      name: 'theme-color',
-      content: computed(() => isDark.value ? '#00aba9' : '#ffffff'),
+      name: "theme-color",
+      content: computed(() =>
+        isDark.value ? "rgb(129, 140, 248) " : "#ffffff"
+      ),
     },
   ],
   link: [
     {
-      rel: 'icon',
-      type: 'image/svg+xml',
-      href: computed(() => preferredDark.value ? '/favicon-dark.svg' : '/favicon.svg'),
+      rel: "icon",
+      type: "image/svg+xml",
+      href: computed(() =>
+        preferredDark.value ? "/favicon-dark.svg" : "/favicon.svg"
+      ),
     },
   ],
-})
+});
 </script>
 
 <template>
   <RouterView />
+  <notifications />
 </template>
