@@ -1,46 +1,50 @@
 <script setup>
-import { addChannel, deleteChannel } from "~/composables/chat";
+import { addChannel, deleteChannel } from '~/composables/chat'
 
-const { channels, activeChannelId } = useChat();
+const { channels, activeChannelId } = useChat()
 
-const { signOut, user, userRoles } = useUser();
+const { signOut, user, userRoles } = useUser()
 
 const newChannel = async () => {
-  const slug = prompt("Please enter your name");
-  if (slug) {
-    addChannel(useSlugify(slug), user.id);
-  }
-};
+  // eslint-disable-next-line no-alert
+  const slug = prompt('Please enter your name')
+  if (slug)
+    addChannel(useSlugify(slug), user.id)
+}
 </script>
 
 <template>
-  <main class="main flex h-screen w-screen overflow-hidden">
+  <main class="main h-screen w-screen flex overflow-hidden">
     <!-- Sidebar -->
     <nav
-      class="w-64 bg-gray-900 text-gray-100 overflow-scroll"
+      class="w-64 overflow-scroll bg-gray-900 text-gray-100"
       :style="{ maxWidth: '20%', minWidth: 150, maxHeight: '100vh' }"
     >
       <div class="p-2">
         <div class="p-2">
           <button
-            class="bg-blue-900 hover:bg-blue-800 text-white py-2 px-4 rounded w-full transition duration-150"
+            class="w-full rounded bg-blue-900 px-4 py-2 text-white transition duration-150 hover:bg-blue-800"
             @click="() => newChannel()"
           >
             New Channel
           </button>
         </div>
-        <hr class="m-2" />
-        <div class="p-2 flex flex-col space-y-2">
-          <h6 class="text-xs">{{ user?.email }}</h6>
+        <hr class="m-2">
+        <div class="flex flex-col p-2 space-y-2">
+          <h6 class="text-xs">
+            {{ user?.email }}
+          </h6>
           <button
-            class="bg-blue-900 hover:bg-blue-800 text-white py-2 px-4 rounded w-full transition duration-150"
+            class="w-full rounded bg-blue-900 px-4 py-2 text-white transition duration-150 hover:bg-blue-800"
             @click="signOut"
           >
             Log out
           </button>
         </div>
-        <hr class="m-2" />
-        <h4 class="font-bold">Channels</h4>
+        <hr class="m-2">
+        <h4 class="font-bold">
+          Channels
+        </h4>
         <ul class="channel-list">
           <SidebarItem
             v-for="channel in channels"
@@ -50,14 +54,13 @@ const newChannel = async () => {
             :user="user"
             :user-roles="userRoles"
             @delete-channel="() => deleteChannel(channel.id)"
-          >
-          </SidebarItem>
+          />
         </ul>
       </div>
     </nav>
 
     <!-- Messages -->
-    <div class="flex-1 bg-gray-800 h-screen">
+    <div class="h-screen flex-1 bg-gray-800">
       <RouterView />
     </div>
   </main>

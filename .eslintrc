@@ -1,7 +1,29 @@
 {
-  "extends": ["@antfu", "prettier"],
-  "plugins": ["prettier"],
+  "extends": ["@antfu", "@unocss"],
   "rules": {
-    "prettier/prettier": "error"
+    "vue/max-attributes-per-line": ["error", {
+      "singleline": {
+        "max": 1
+      },      
+      "multiline": {
+        "max": 1
+      }
+    }],
+    "vue/attributes-order": ["error", {
+      "order": [
+        "DEFINITION",
+        "LIST_RENDERING",
+        "CONDITIONALS",
+        "GLOBAL",
+        "RENDER_MODIFIERS",
+        ["UNIQUE", "SLOT"],
+        "TWO_WAY_BINDING",
+        "OTHER_DIRECTIVES",
+        "OTHER_ATTR",
+        "EVENTS",
+        "CONTENT"
+      ],
+      "alphabetical": false
+    }]
   }
 }

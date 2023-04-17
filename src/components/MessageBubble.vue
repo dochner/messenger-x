@@ -1,9 +1,9 @@
 <script setup lang="ts">
 defineProps({
   message: Object,
-});
+})
 
-const { user, userRoles } = useUser();
+const { user, userRoles } = useUser()
 </script>
 
 <template>
@@ -11,8 +11,8 @@ const { user, userRoles } = useUser();
     <div className="text-gray-100 w-4">
       <template
         v-if="
-          user?.id === message?.user_id ||
-          userRoles.some((role: string) => ['admin', 'moderator'].includes(role))
+          user?.id === message?.user_id
+            || userRoles.some((role: string) => ['admin', 'moderator'].includes(role))
         "
       >
         <button @click="() => deleteMessage(message?.id)">
@@ -21,8 +21,12 @@ const { user, userRoles } = useUser();
       </template>
     </div>
     <div>
-      <p className="text-blue-700 font-bold">{{ message?.author.username }}</p>
-      <p className="text-white">{{ message?.message }}</p>
+      <p className="text-blue-700 font-bold">
+        {{ message?.author.username }}
+      </p>
+      <p className="text-white">
+        {{ message?.message }}
+      </p>
     </div>
   </div>
 </template>

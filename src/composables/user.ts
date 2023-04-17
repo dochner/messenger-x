@@ -1,76 +1,74 @@
-const supabase = useSupabase();
+const supabase = useSupabase()
 
-const userLoaded = ref(false);
-const user = ref(null);
-const session = ref(null);
-const userRoles = ref([]);
+const userLoaded = ref(false)
+const user = ref(null)
+const session = ref(null)
+const userRoles = ref([])
 
 const setUserLoaded = (value: boolean) => {
-  userLoaded.value = value;
-};
+  userLoaded.value = value
+}
 
 const setUser = (value: any) => {
-  user.value = value;
-};
+  user.value = value
+}
 
 const setSession = (value: any) => {
-  session.value = value;
-};
+  session.value = value
+}
 
 const setUserRoles = (value: any) => {
-  userRoles.value = value;
-};
+  userRoles.value = value
+}
 
 export const useUser = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   const signIn = async () => {
-    await fetchUserRoles((userRoles) =>
-      setUserRoles(userRoles.map((userRole) => userRole.role))
-    );
-  };
+    await fetchUserRoles(userRoles =>
+      setUserRoles(userRoles.map(userRole => userRole.role)),
+    )
+  }
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-      router.push("/");
-    }
-  };
+    const { error } = await supabase.auth.signOut()
+    if (!error)
+      router.push('/')
+  }
 
   watchEffect(
     () => {
       supabase.auth.getSession().then(({ data: { session } }) => {
-        setSession(session);
-        setUserLoaded(!!session);
-        if (session?.user) {
-          signIn();
-        }
-      });
+        setSession(session)
+        setUserLoaded(!!session)
+        if (session?.user)
+          signIn()
+      })
 
       const {
         data: { subscription: authListener },
       } = supabase.auth.onAuthStateChange(async (event, session) => {
-        setSession(session);
-        const currentUser = session?.user;
-        setUser(currentUser ?? null);
-        setUserLoaded(!!currentUser);
+        setSession(session)
+        const currentUser = session?.user
+        setUser(currentUser ?? null)
+        setUserLoaded(!!currentUser)
         if (currentUser) {
-          signIn();
-          router.push("/channels/1");
+          signIn()
+          router.push('/channels/1')
         }
-      });
+      })
 
       return () => {
-        authListener.unsubscribe();
-      };
+        authListener.unsubscribe()
+      }
     },
-    { flush: "pre" }
-  );
+    { flush: 'pre' },
+  )
   return {
     userLoaded,
     user,
     userRoles,
     signIn,
     signOut,
-  };
-};
+  }
+}

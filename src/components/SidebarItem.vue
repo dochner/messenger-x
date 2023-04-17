@@ -4,17 +4,17 @@ const props = defineProps({
   isActiveChannel: Boolean,
   user: Object,
   userRoles: Object,
-});
+})
 
-defineEmits(["deleteChannel"]);
+defineEmits(['deleteChannel'])
 
 const checkPermission = computed(() => {
   return (
-    props.channel?.id !== 1 &&
-    (props.channel?.created_by === props.user?.id ||
-      props.userRoles?.includes("admin"))
-  );
-});
+    props.channel?.id !== 1
+    && (props.channel?.created_by === props.user?.id
+      || props.userRoles?.includes('admin'))
+  )
+})
 </script>
 
 <template>
@@ -24,12 +24,12 @@ const checkPermission = computed(() => {
       active-class="font-bold"
       class="flex items-center"
     >
-      <div class="i-carbon-hashtag h-5 w-5"></div>
+      <div class="i-carbon-hashtag h-5 w-5" />
       {{ channel?.slug }}
     </RouterLink>
     <template v-if="checkPermission">
       <button @click="() => $emit('deleteChannel', channel.id)">
-        <div class="h-5 w-5 i-carbon-trash-can text-red-400" />
+        <div class="i-carbon-trash-can h-5 w-5 text-red-400" />
       </button>
     </template>
   </li>

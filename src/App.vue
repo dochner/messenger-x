@@ -3,26 +3,26 @@
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
 useHead({
-  title: "MessengerX",
+  title: 'MessengerX',
   meta: [
-    { name: "description", content: "Chat message app" },
+    { name: 'description', content: 'Chat message app' },
     {
-      name: "theme-color",
+      name: 'theme-color',
       content: computed(() =>
-        isDark.value ? "rgb(129, 140, 248) " : "#ffffff"
+        isDark.value ? 'rgb(129, 140, 248) ' : '#ffffff',
       ),
     },
   ],
   link: [
     {
-      rel: "icon",
-      type: "image/svg+xml",
+      rel: 'icon',
+      type: 'image/svg+xml',
       href: computed(() =>
-        preferredDark.value ? "/favicon-dark.svg" : "/favicon.svg"
+        preferredDark.value ? '/favicon-dark.svg' : '/favicon.svg',
       ),
     },
   ],
-});
+})
 </script>
 
 <template>

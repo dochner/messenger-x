@@ -1,22 +1,22 @@
 <script setup>
 defineProps({
   modelValue: String,
-});
+})
 
-const emits = defineEmits(["update:modelValue", "submit"]);
+const emits = defineEmits(['update:modelValue', 'submit'])
 
 const submitOnEnter = () => {
-  emits("submit");
-};
+  emits('submit')
+}
 </script>
 
 <template>
   <input
-    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    class="focus:shadow-outline w-full appearance-none border rounded px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
     type="text"
     placeholder="Send a message"
     :value="modelValue"
     @keydown.enter="submitOnEnter"
     @input="($event) => $emit('update:modelValue', $event.target.value)"
-  />
+  >
 </template>
