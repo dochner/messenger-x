@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { useSupabase } from '~/composables/supabase'
+import type { AuthError } from '@supabase/supabase-js'
 
 defineOptions({
   name: 'IndexPage',
 })
-// const user = useUserStore()
+
 const supabase = useSupabase()
 const router = useRouter()
-// const email = $ref(user.savedName)
 const email = $ref('')
 const password = $ref('')
 
@@ -25,11 +24,7 @@ const handleLogin = async () => {
     // that must mean that a confirmation email has been sent.
     // NOTE: Confirming your email address is required by default.
     if (error) {
-      useNotify({
-        title: 'Error',
-        text: `Error with auth: ${error.message}`,
-        type: 'error',
-      })
+      throw error
     }
     else if (!user) {
       useNotify({
@@ -49,10 +44,9 @@ const handleLogin = async () => {
     }
   }
   catch (error) {
-    // console.log('error', error)
     useNotify({
       title: 'Error',
-      text: error?.error_description || error,
+      text: `Error with auth: ${(error as AuthError).message}`,
       type: 'error',
     })
   }
@@ -60,7 +54,6 @@ const handleLogin = async () => {
 
 const toggleTypeForm = () =>
   type.value === 'create' ? (type.value = 'login') : (type.value = 'create')
-// const { t } = useI18n()
 </script>
 
 <template>

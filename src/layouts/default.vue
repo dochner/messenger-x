@@ -1,15 +1,23 @@
 <script setup>
-import { addChannel, deleteChannel } from '~/composables/chat'
+const chatStore = useChatStore()
+const { addChannel, deleteChannel } = chatStore
+const { channelList, channelId } = toRefs(chatStore)
 
-const { channels, activeChannelId } = useChat()
+const userStore = useUserStore()
+const { user, userRoles } = toRefs(userStore)
 
-const { signOut, user, userRoles } = useUser()
+const supabase = useSupabase()
 
 const newChannel = async () => {
   // eslint-disable-next-line no-alert
   const slug = prompt('Please enter your name')
   if (slug)
-    addChannel(useSlugify(slug), user.id)
+    addChannel(useSlugify(slug), user.value.id)
+}
+
+const signOut = async () => {
+  await supabase.auth.signOut()
+  router.push('/')
 }
 </script>
 
@@ -47,10 +55,10 @@ const newChannel = async () => {
         </h4>
         <ul class="channel-list">
           <SidebarItem
-            v-for="channel in channels"
+            v-for="channel in channelList"
             :key="channel.id"
             :channel="channel"
-            :is-active-channel="channel?.id === activeChannelId"
+            :is-active-channel="channel?.id === channelId"
             :user="user"
             :user-roles="userRoles"
             @delete-channel="() => deleteChannel(channel.id)"

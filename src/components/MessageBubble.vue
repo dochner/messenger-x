@@ -1,20 +1,22 @@
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
   message: Object,
 })
 
-const { user, userRoles } = useUser()
+const userStore = useUserStore()
+const { user, userRoles } = toRefs(userStore)
+
+const { deleteMessage } = useChatStore()
+
+const hasPermission = computed(() => {
+  return user.value?.id === props.message?.user_id || userRoles.value?.some(role => ['admin', 'moderator'].includes(role!.role))
+})
 </script>
 
 <template>
   <div className="py-1 flex items-center space-x-2">
     <div className="text-gray-100 w-4">
-      <template
-        v-if="
-          user?.id === message?.user_id
-            || userRoles.some((role: string) => ['admin', 'moderator'].includes(role))
-        "
-      >
+      <template v-if="hasPermission">
         <button @click="() => deleteMessage(message?.id)">
           <div class="i-carbon-trash-can h-5 w-5 text-dark-100" />
         </button>
@@ -22,7 +24,7 @@ const { user, userRoles } = useUser()
     </div>
     <div>
       <p className="text-blue-700 font-bold">
-        {{ message?.author.username }}
+        {{ message?.author?.username }}
       </p>
       <p className="text-white">
         {{ message?.message }}

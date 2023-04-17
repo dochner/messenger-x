@@ -13,6 +13,7 @@
     "test:unit": "vitest",
     "typecheck": "vue-tsc --noEmit",
     "up": "taze major -I",
+    "update-types": "npx supabase gen types typescript --project-id \"$PROJECT_ID\" > src/types/supabase.ts",
     "postinstall": "npx simple-git-hooks"
   },
   "dependencies": {

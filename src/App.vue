@@ -1,7 +1,6 @@
 <script setup lang="ts">
-// https://github.com/vueuse/head
-// you can use this to manipulate the document head in any components,
-// they will be rendered correctly in the html results with vite-ssg
+const supabase = useSupabase()
+
 useHead({
   title: 'MessengerX',
   meta: [
@@ -22,6 +21,22 @@ useHead({
       ),
     },
   ],
+})
+
+const router = useRouter()
+
+const { setUser, fetchUserRoles } = useUserStore()
+// const { messageListener, userListener, channelListener } = useChatStore()
+
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (event === 'SIGNED_OUT') {
+    router.push('/')
+  }
+  else if (session?.user) {
+    await setUser(session.user)
+    await fetchUserRoles()
+    router.push('/channels/1')
+  }
 })
 </script>
 
